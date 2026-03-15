@@ -1,0 +1,35 @@
+*/30 * * * * /home/jasonckfan/.openclaw/workspace/lancedb-memory/scripts/sync-memory.sh >> /home/jasonckfan/.openclaw/workspace/lancedb-memory/cron.log 2>&1
+*/5 * * * * ~/.openclaw/scripts/model-failover-restart.sh
+# OpenClaw monitoring
+*/15 * * * * /home/jasonckfan/.openclaw/workspace/scripts/openclaw-monitor.sh >> /home/jasonckfan/.openclaw/logs/monitor.log 2>&1
+0 4 * * * /home/jasonckfan/.openclaw/workspace/scripts/memory-manager.sh cleanup >> /home/jasonckfan/.openclaw/logs/memory.log 2>&1
+*/15 * * * * /home/jasonckfan/.openclaw/workspace/lancedb-memory/scripts/save_session_summary.sh >> /home/jasonckfan/.openclaw/workspace/lancedb-memory/session_save.log 2>&1
+0 * * * * /usr/bin/openclaw --exec=heartbeat-push
+0 13 * * * /home/jasonckfan/.openclaw/workspace/scripts/daily-shopping-deals.sh >> /home/jasonckfan/.openclaw/workspace/logs/shopping-deals-cron.log 2>&1
+0 8 * * * python3 /home/jasonckfan/.openclaw/workspace/scripts/sync_pricewatch.py >> /home/jasonckfan/.openclaw/workspace/data/pricewatch_sync.log 2>&1
+# JPY/HKD 匯率監控 - 每天檢查3次
+0 9,15,21 * * * /home/jasonckfan/.openclaw/workspace/scripts/jpy-hkd-alert.sh
+# Self-Evolving Skill v2.0 Cron Jobs
+# 每日22:00執行演化分析
+0 22 * * * cd /home/jasonckfan/.openclaw/workspace/skills/self-evolving-skill/scripts && python3 daily-evolution.py >> /home/jasonckfan/.openclaw/workspace/logs/self-evolving-daily.log 2>&1
+
+# 每週日09:00執行技能發現
+0 9 * * 0 cd /home/jasonckfan/.openclaw/workspace/skills/self-evolving-skill/scripts && python3 skill-discovery.py >> /home/jasonckfan/.openclaw/workspace/logs/self-evolving-weekly.log 2>&1
+
+# 嫲嫲煩煩群組問候 - 每4小時執行
+0 */4 * * * /home/jasonckfan/.openclaw/workspace/scripts/greet-family.sh >> /home/jasonckfan/.openclaw/workspace/logs/greet-family-cron.log 2>&1
+
+# 每日天氣報告 - 早上07:30發送
+30 7 * * * /home/jasonckfan/.openclaw/workspace/scripts/daily-weather-report.sh >> /home/jasonckfan/.openclaw/workspace/logs/daily-weather-cron.log 2>&1
+
+# 緊急天氣警告監察 - 每15分鐘檢查
+*/15 * * * * /home/jasonckfan/.openclaw/workspace/scripts/weather-alert-monitor.sh >> /home/jasonckfan/.openclaw/workspace/logs/weather-alert-cron.log 2>&1
+
+# OpenClaw 設定每日自動備份到 GitHub
+0 0 * * * /home/jasonckfan/.openclaw/workspace/scripts/daily-github-backup.sh >> /home/jasonckfan/.openclaw/workspace/logs/github-backup-cron.log 2>&1
+
+# 每日記憶審計 - 檢查記憶系統健康
+0 4 * * * /home/jasonckfan/.openclaw/workspace/scripts/memory-audit.sh >> /home/jasonckfan/.openclaw/workspace/logs/memory-audit-cron.log 2>&1
+
+# 每週記憶整合 - 週日 09:00 執行
+0 9 * * 0 /home/jasonckfan/.openclaw/workspace/scripts/weekly-memory-sync.sh >> /home/jasonckfan/.openclaw/workspace/logs/weekly-memory-sync-cron.log 2>&1
